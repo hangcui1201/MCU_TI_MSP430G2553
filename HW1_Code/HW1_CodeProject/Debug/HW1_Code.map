@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v16.9.6                     
 ******************************************************************************
->> Linked Mon Apr 02 23:31:53 2018
+>> Linked Sun May 20 17:18:57 2018
 
 OUTPUT FILE NAME:   <HW1_Code.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs_noexit"  address: 0000d344
@@ -173,7 +173,7 @@ MODULE SUMMARY
     +--+--------------------------+------+---------+---------+
        Total:                     674    18        108    
                                                           
-    C:\tiCCS7\ccsv7\tools\compiler\ti-cgt-msp430_16.9.6.LTS\lib\rts430_eabi.lib
+    C:\ti\ccsv7\tools\compiler\ti-cgt-msp430_16.9.6.LTS\lib\rts430_eabi.lib
        frcdivd.obj                1152   0         0      
        _printfi_min.obj           710    20        0      
        divd.obj                   568    0         0      

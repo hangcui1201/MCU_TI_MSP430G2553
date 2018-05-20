@@ -1,0 +1,1 @@
+"./UARTfuncs.obj" "./user_HW5_Code.obj" "../lnk_msp430g2553.cmd" -llibc.a 

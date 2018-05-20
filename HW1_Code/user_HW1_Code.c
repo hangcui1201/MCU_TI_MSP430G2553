@@ -1,10 +1,11 @@
 /******************************************************************************
 MSP430G2553 Project Creator
 
-SE 423  - Dan Block
+SE 423  - Instructor: Dan Block
           Spring(2018)
 
           Written(by) : Steve(Keres)
+
 College of Engineering Control Systems Lab
 University of Illinois at Urbana-Champaign
 *******************************************************************************/
@@ -12,7 +13,9 @@ University of Illinois at Urbana-Champaign
 /******************************************************************************
 SE 423 Mechatronics Homework Assignment #1
 
-Description:
+Homework Description:
+
+
 
 Author: Hang Cui
 Email: cuihang1201@gmail.com
@@ -37,20 +40,20 @@ void main(void) {
 	// Initialize Port 1
 	P1SEL &= ~0x01;  // See page 42 and 43 of the G2553's datasheet, It shows that when both P1SEL and P1SEL2 bits are zero   
 	P1SEL2 &= ~0x01; // the corresponding pin is set as a I/O pin.  Datasheet: http://coecsl.ece.illinois.edu/ge423/datasheets/MSP430Ref_Guides/msp430g2553datasheet.pdf  
-	P1REN = 0x0;  // No resistors enabled for Port 1
-	P1DIR |= 0x1; // Set P1.0 to output to drive LED on LaunchPad board.  Make sure shunt jumper is in place at LaunchPad's Red LED
+	P1REN = 0x0;     // No resistors enabled for Port 1
+	P1DIR |= 0x1;    // Set P1.0 to output to drive LED on LaunchPad board.  Make sure shunt jumper is in place at LaunchPad's Red LED
 	P1OUT &= ~0x01;  // Initially set P1.0 to 0
 
 
 	// Timer A Config
-	TACCTL0 = CCIE;       		// Enable Periodic interrupt
-	TACCR0 = 16000;                // period = 1ms   
+	TACCTL0 = CCIE;          // Enable Periodic interrupt
+	TACCR0 = 16000;          // period = 1ms
 	TACTL = TASSEL_2 + MC_1; // source SMCLK, up mode
 
 
-	Init_UART(9600,1);	// Initialize UART for 9600 baud serial communication
+	Init_UART(9600,1);	     // Initialize UART for 9600 baud serial communication
 
-	_BIS_SR(GIE); 		// Enable global interrupt
+	_BIS_SR(GIE); 		     // Enable global interrupt
 
 
 	while(1) {
@@ -61,9 +64,9 @@ void main(void) {
 
 		if (newprint)  {
 
-			P1OUT ^= 0x1;		// Blink LED
+			P1OUT ^= 0x1;                           // Blink LED
 
-			UART_printf("Hello %d\n\r",timecnt/2); // divide by two so displays seconds by default
+			UART_printf("Hello %d\n\r",timecnt/2);  // divide by two so displays seconds by default
 
 			newprint = 0;
 		}
@@ -76,12 +79,12 @@ void main(void) {
 #pragma vector=TIMER0_A0_VECTOR
 __interrupt void Timer_A (void)
 {
-	timecheck++; // Keep track of time for main while loop. 
+	timecheck++;             // Keep track of time for main while loop.
 
 	if (timecheck == 500) {
 	    timecheck = 0;
 	    timecnt++;
-	    newprint = 1;  // flag main while loop that .5 seconds have gone by.  
+	    newprint = 1;        // flag main while loop that .5 seconds have gone by.
 	}
 
 }
@@ -100,7 +103,8 @@ __interrupt void ADC10_ISR(void) {
 #pragma vector=USCIAB0TX_VECTOR
 __interrupt void USCI0TX_ISR(void) {
 
-	if(IFG2&UCA0TXIFG) {		// USCI_A0 requested TX interrupt
+    // USCI_A0 requested TX interrupt
+	if(IFG2&UCA0TXIFG) {
 		if(printf_flag) {
 			if (currentindex == txcount) {
 				senddone = 1;
@@ -126,7 +130,8 @@ __interrupt void USCI0TX_ISR(void) {
 		IFG2 &= ~UCA0TXIFG;
 	}
 
-	if(IFG2&UCB0TXIFG) {	// USCI_B0 requested TX interrupt (UCB0TXBUF is empty)
+	// USCI_B0 requested TX interrupt (UCB0TXBUF is empty)
+	if(IFG2&UCB0TXIFG) {
 
 		IFG2 &= ~UCB0TXIFG;   // clear IFG
 	}
@@ -138,12 +143,14 @@ __interrupt void USCI0TX_ISR(void) {
 #pragma vector=USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void) {
 
-	if(IFG2&UCB0RXIFG) {  // USCI_B0 requested RX interrupt (UCB0RXBUF is full)
+    // USCI_B0 requested RX interrupt (UCB0RXBUF is full)
+	if(IFG2&UCB0RXIFG) {
 
 		IFG2 &= ~UCB0RXIFG;   // clear IFG
 	}
 
-	if(IFG2&UCA0RXIFG) {  // USCI_A0 requested RX interrupt (UCA0RXBUF is full)
+	// USCI_A0 requested RX interrupt (UCA0RXBUF is full)
+	if(IFG2&UCA0RXIFG) {
 
 //    Uncomment this block of code if you would like to use this COM protocol that uses 253 as STARTCHAR and 255 as STOPCHAR
 /*		if(!started) {	// Haven't started a message yet
